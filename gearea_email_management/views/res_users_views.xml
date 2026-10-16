@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- 1. Preferences (người dùng chỉ xem, không sửa) -->
+    <record id="view_users_form_simple_modif_gearea_mail" model="ir.ui.view">
+        <field name="name">res.users.preferences.form.gearea.mail</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='preferences']" position="after">
+                <group name="gearea_mail_limit" string="Giới hạn gửi email cá nhân">
+                    <group>
+                        <field name="gearea_mail_effective_limit" readonly="1"/>
+                        <field name="gearea_mail_limit_minutes" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="gearea_mail_sent_in_window" readonly="1"/>
+                        <field name="gearea_mail_remaining" readonly="1"/>
+                        <field name="gearea_mail_usage_percent" widget="progressbar" readonly="1"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 2. Form người dùng cho quản trị viên (được sửa giới hạn riêng) -->
+    <record id="view_users_form_gearea_mail" model="ir.ui.view">
+        <field name="name">res.users.form.gearea.mail</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Gearea Email" name="gearea_email" groups="base.group_system">
+                    <group>
+                        <group string="Cấu hình giới hạn">
+                            <field name="gearea_mail_limit_count"/>
+                            <field name="gearea_mail_limit_minutes"/>
+                        </group>
+                        <group string="Mức sử dụng hiện tại">
+                            <field name="gearea_mail_effective_limit"/>
+                            <field name="gearea_mail_sent_in_window"/>
+                            <field name="gearea_mail_remaining"/>
+                            <field name="gearea_mail_usage_percent" widget="progressbar"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
